@@ -9,7 +9,10 @@ ifdef(`conf_SD_READER', `dnl
 ifdef(`conf_ONEWIRE', `dnl
   /* onewire port range */
   ONEWIRE_PORT_RANGE(PA7, PA7)
+  /* DHT 11/22 humidity and temperature sensors */
+  pin(DHT, PA6, INPUT)
 ')dnl
+
 
 ifdef(`conf_STELLA', `dnl
   /* stella port 1 */
