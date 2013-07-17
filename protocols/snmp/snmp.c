@@ -284,7 +284,7 @@ tank_next(uint8_t * ptr, struct snmp_varbinding * bind)
 uint8_t
 dht_polling_delay_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *userdata)
 {
-  if (bind->len == 1 && bind->data[0] == 1) {
+  if (bind->len == 1 && bind->data[0] == 0) {
     return encode_short(ptr, SNMP_TYPE_INTEGER, dht_global.polling_delay);
   } else {
     return 0;
@@ -294,7 +294,7 @@ dht_polling_delay_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *u
 uint8_t
 dht_temp_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *userdata)
 {
-  if (bind->len == 1 && bind->data[0] == 1) {
+  if (bind->len == 1 && bind->data[0] == 0) {
     return encode_short(ptr, SNMP_TYPE_INTEGER, dht_global.temp);
   } else {
     return 0;
@@ -304,7 +304,7 @@ dht_temp_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *userdata)
 uint8_t
 dht_humid_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *userdata)
 {
-  if (bind->len == 1 && bind->data[0] == 1) {
+  if (bind->len == 1 && bind->data[0] == 0) {
     return encode_short(ptr, SNMP_TYPE_INTEGER, dht_global.humid);
   } else {
     return 0;
@@ -315,6 +315,22 @@ uint8_t
 dht_next(uint8_t * ptr, struct snmp_varbinding * bind)
 {
   return onelevel_next(ptr, bind, 1);
+}
+
+uint8_t
+dht_general_next(uint8_t * ptr, struct snmp_varbinding * bind)
+{
+  return onelevel_next(ptr, bind, 4);
+}
+
+uint8_t
+dht_num_sensors_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *userdata)
+{
+  if (bind->len == 1 && bind->data[0] == 0) {
+    return encode_short(ptr, SNMP_TYPE_INTEGER, 4);
+  } else {
+    return 0;
+  }
 }
 #endif
 
@@ -374,6 +390,8 @@ const char tank_reaction_obj_name[] PROGMEM = SNMP_OID_ETHERSEX "\x04";
 #endif
 
 #ifdef DHT_SNMP_SUPPORT
+const char dht_general_obj_name[] PROGMEM = SNMP_OID_ETHERSEX "\x05";
+
 const char dht_polling_delay_obj_name[] PROGMEM = SNMP_OID_ETHERSEX "\x05\x01";
 const char dht_temp_obj_name[] PROGMEM = SNMP_OID_ETHERSEX "\x05\x02";
 const char dht_humid_obj_name[] PROGMEM = SNMP_OID_ETHERSEX "\x05\x03";
@@ -406,6 +424,7 @@ const struct snmp_reaction snmp_reactions[] PROGMEM = {
   {tank_reaction_obj_name, tank_reaction, NULL, tank_next},
 #endif
 #ifdef DHT_SNMP_SUPPORT
+  {dht_general_obj_name, dht_num_sensors_reaction, NULL, dht_general_next},
   {dht_polling_delay_obj_name, dht_polling_delay_reaction, NULL, dht_next},
   {dht_temp_obj_name, dht_temp_reaction, NULL, dht_next},
   {dht_humid_obj_name, dht_humid_reaction, NULL, dht_next},
