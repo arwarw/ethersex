@@ -316,22 +316,6 @@ dht_next(uint8_t * ptr, struct snmp_varbinding * bind)
 {
   return onelevel_next(ptr, bind, 1);
 }
-
-uint8_t
-dht_general_next(uint8_t * ptr, struct snmp_varbinding * bind)
-{
-  return onelevel_next(ptr, bind, 4);
-}
-
-uint8_t
-dht_num_sensors_reaction(uint8_t * ptr, struct snmp_varbinding * bind, void *userdata)
-{
-  if (bind->len == 1 && bind->data[0] == 0) {
-    return encode_short(ptr, SNMP_TYPE_INTEGER, 4);
-  } else {
-    return 0;
-  }
-}
 #endif
 
 uint8_t
@@ -424,7 +408,6 @@ const struct snmp_reaction snmp_reactions[] PROGMEM = {
   {tank_reaction_obj_name, tank_reaction, NULL, tank_next},
 #endif
 #ifdef DHT_SNMP_SUPPORT
-  {dht_general_obj_name, dht_num_sensors_reaction, NULL, dht_general_next},
   {dht_polling_delay_obj_name, dht_polling_delay_reaction, NULL, dht_next},
   {dht_temp_obj_name, dht_temp_reaction, NULL, dht_next},
   {dht_humid_obj_name, dht_humid_reaction, NULL, dht_next},
