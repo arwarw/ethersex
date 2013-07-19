@@ -24,6 +24,7 @@
 #include <stdbool.h>
 
 static volatile bool net_activity_detected = true;
+static int minutes;
 
 void net_activity_watchdog_feed(void)
 {
@@ -32,15 +33,20 @@ void net_activity_watchdog_feed(void)
 
 void net_activity_watchdog_periodic(void)
 {
-	if (net_activity_detected) {
-		net_activity_detected = false;
+	if (minutes == NET_ACTIVITY_WATCHDOG_INTERVAL) {
+		minutes = 0;
+		if (net_activity_detected) {
+			net_activity_detected = false;
+		} else {
+			while(1); /* let the watchdog reboot us */
+		}
 	} else {
-		while(1); /* let the watchdog reboot us */
+		minutes++;
 	}
 }
 
 /*
   -- Ethersex META --
   header(services/net_activity_watchdog/net_activity_watchdog.h)
-  timer(3000, net_activity_watchdog_periodic())
+  timer(300, net_activity_watchdog_periodic())
 */
