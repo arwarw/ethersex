@@ -1,0 +1,1 @@
+dep_bool_editor "Watch incoming network packets (and reboot if missing)" NET_ACTIVITY_WATCHDOG_SUPPORT "services/net_activity_watchdog/config" $UIP_SUPPORT
