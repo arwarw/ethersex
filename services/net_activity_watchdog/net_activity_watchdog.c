@@ -42,5 +42,5 @@ void net_activity_watchdog_periodic(void)
 /*
   -- Ethersex META --
   header(services/net_activity_watchdog/net_activity_watchdog.h)
-  timer(300, net_activity_watchdog_periodic())
+  timer(3000, net_activity_watchdog_periodic())
 */
