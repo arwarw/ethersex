@@ -832,7 +832,7 @@ uip_process(u8_t flag)
 
 #ifdef NET_ACTIVITY_WATCHDOG_SUPPORT
   /* we received something... */
-  net_activity_detected = true;
+  net_activity_watchdog_feed();
 #endif
 
   /* Start of IP input header processing code. */
