@@ -33,16 +33,14 @@ void net_activity_watchdog_feed(void)
 
 void net_activity_watchdog_periodic(void)
 {
-	if (minutes == NET_ACTIVITY_WATCHDOG_INTERVAL) {
+	if (++minutes >= NET_ACTIVITY_WATCHDOG_INTERVAL) {
 		minutes = 0;
 		if (net_activity_detected) {
 			net_activity_detected = false;
 		} else {
 			while(1); /* let the watchdog reboot us */
 		}
-	} else {
-		minutes++;
-	}
+	};
 }
 
 /*
