@@ -21,6 +21,14 @@
 
 #include "config.h"
 #include "net_activity_watchdog.h"
+#include <stdbool.h>
+
+static volatile bool net_activity_detected = true;
+
+void net_activity_watchdog_feed(void)
+{
+	net_activity_detected = true;
+}
 
 void net_activity_watchdog_periodic(void)
 {

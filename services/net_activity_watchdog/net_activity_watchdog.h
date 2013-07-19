@@ -23,10 +23,9 @@
 #define _NET_ACTIVITY_WATCHDOG_H
 #include <stdbool.h>
 
-/* State variable for net activity, set to 'true' when receiving a packet. Set
- * to 'false' by our cronjob if previously 'true', else cronjob initiates
- * reboot. Initialized to true to prevent race condition on bootup. */
-extern volatile bool net_activity_detected = true;
+/* Feed the watchdog. If the watchdog is not regularly fed with
+ * some network packets, it will get angry and reboot the MCU. */
+void net_activity_watchdog_feed(void);
 
 /* periodically called by static cron entry */
 void net_activity_watchdog_periodic(void);
